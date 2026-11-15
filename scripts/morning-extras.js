@@ -19,7 +19,9 @@ if (music <= now) {
 // Shared with the Morning Spotify Gate script; never stored in public GitHub.
 Keychain.set("mr_music_trigger_iso", music.toISOString());
 Keychain.set("mr_wake_iso", wake.toISOString());
-Keychain.remove("mr_music_trigger_consumed");
+if (Keychain.contains("mr_music_trigger_consumed")) {
+  Keychain.remove("mr_music_trigger_consumed");
+}
 
 const ids = [15, 30, 45, 60, 75, 90].map(min => "mr_ding_" + min);
 await Notification.removePending(ids);
