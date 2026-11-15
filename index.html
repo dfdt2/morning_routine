@@ -1,20 +1,114 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#16192a"><title>Morning Routine</title><style>
-*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at top,#35304c,#16192a 62%,#111522);color:#f7f2f7;font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}main{max-width:570px;margin:auto;padding:32px 16px 80px}h1{font-size:40px;letter-spacing:-1.5px;margin:5px 0 8px}.hint{color:#b7b3c8;line-height:1.55;font-size:13px}.kicker{letter-spacing:2.5px;color:#d2b8ed;font-size:11px;font-weight:800}section{background:#ffffff0c;border:1px solid #ffffff20;border-radius:20px;padding:18px;margin:16px 0}h2{font-size:16px;margin:0 0 15px}.row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:12px 0}.row label{color:#e5e1ec;font-size:14px}.small{font-size:12px;color:#b2acc4}input,select{color:white;border:1px solid #ffffff35;background:#27283f;border-radius:11px;padding:11px;font:inherit;color-scheme:dark;max-width:100%}input[type=time]{font-size:19px;width:145px}input[type=number]{width:78px}input[type=checkbox]{accent-color:#c6a1f2;width:19px;height:19px}select{width:100%}button{cursor:pointer;border:1px solid #ffffff35;background:#ffffff0d;color:white;border-radius:12px;padding:11px;font-size:13px}.options{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.option{padding:12px 2px}.active{background:#c4a7eb!important;color:#161629;border-color:#c4a7eb;font-weight:700}.primary{background:#c4a7eb;color:#141322;font-weight:750;border:0;width:100%;font-size:15px;padding:15px}.timeline{display:grid;gap:0}.event{display:grid;grid-template-columns:65px 1fr;gap:12px;padding:11px 0;border-bottom:1px solid #ffffff15}.event:last-child{border:0}.event time{color:#d9baf9;font-weight:700;font-variant-numeric:tabular-nums}.event strong{font-size:14px}.event p{font-size:12px;color:#b8b4c7;margin:3px 0}.status{font-size:13px;line-height:1.5;color:#d6c9eb;min-height:24px}footer{font-size:12px;color:#a9a7ba;line-height:1.55;margin-top:22px}a{color:#dac2ff}
-</style></head><body><main><header><div class="kicker">YOUR EVENING CONTROL PANEL</div><h1>Morning Routine</h1><div class="hint">Choose your wake-up time once. Preview the entire morning, and save your preferences.</div></header>
-<section><h2>Sleep & wake</h2><div class="row"><label for="bed">Going to bed</label><input id="bed" type="time" value="23:00"></div><div class="row"><label>Sleep-cycle suggestions</label><span class="small">15 min to fall asleep</span></div><div class="options" id="suggestions"></div><div class="row"><label for="wake">Exact wake-up time</label><input id="wake" type="time" value="07:00"></div><div class="hint">Suggestions use approximate 90-minute cycles, not measured sleep stages. You can choose any minute.</div></section>
-<section><h2>Wake-up sequence</h2><div class="row"><label for="sun">Hue sunrise starts before alarm</label><select id="sun" style="width:120px"><option value="15">15 min</option><option value="30" selected>30 min</option><option value="45">45 min</option><option value="60">60 min</option></select></div><div class="row"><label for="musicOffset">Music starts before alarm</label><select id="musicOffset" style="width:120px"><option value="0">At alarm</option><option value="5">5 min</option><option value="10" selected>10 min</option><option value="15">15 min</option><option value="20">20 min</option></select></div><div class="row"><label for="music">Spotify music enabled</label><input id="music" type="checkbox" checked></div><div class="row"><label for="alarm">Real iPhone alarm</label><input id="alarm" type="checkbox" checked></div><div class="row"><label for="chimes">Gentle follow-up chimes</label><input id="chimes" type="checkbox" checked></div><div class="hint">Chimes at +15, +30, +45, +60, +75 and +90 minutes.</div></section>
-<section><h2>Music selection</h2><label class="small" for="playlist">Playlist name or Spotify URL (optional)</label><input id="playlist" type="text" placeholder="My morning playlist" style="width:100%;margin:9px 0 7px"><div class="row"><label for="shuffle">Shuffle tracks</label><input id="shuffle" type="checkbox" checked></div><div class="hint">Future integration: your existing playlist picker can pass a chosen playlist into this separate app.</div></section>
-<section><h2>Tomorrow's plan</h2><div class="timeline" id="timeline"></div></section>
-<section><button class="primary" id="save">Save my morning plan</button><div id="status" class="status" role="status" style="margin-top:10px"></div><button id="copy" style="width:100%">Copy plan as JSON</button><div style="border-top:1px solid #ffffff20;margin:18px 0 13px"></div><h2>iPhone Clock connection</h2><p class="hint">On your iPhone, first create a Shortcut named <strong>Set Morning Alarm</strong> using the instructions below. Then tap this button to send the wake-up time to Apple Shortcuts. This does not schedule Hue, music or chimes yet.</p><button class="primary" id="setIphone" type="button">Set iPhone alarm with Shortcuts</button><p class="small" id="iphoneStatus" role="status" style="margin-top:10px"></p></section>
-<footer><strong>Version 1 — planning dashboard only.</strong> Saving stores settings in this browser. The optional iPhone Shortcut button can create an alarm once you install the Shortcut below; saving alone does not set an alarm. Hue is connected through your existing Scriptable setup. Music and chimes need the optional iPhone setup described below. An iPhone Clock alarm remains the independent safety backup.</footer><section><h2>Music and follow-up chimes</h2>
-<div class="hint"><strong>iPhone-only experimental setup:</strong> Once the two Scriptable helpers are installed and added to Shortcuts, six one-time notification chimes will be scheduled at +15, +30, +45, +60, +75 and +90 minutes. A separate Clock alarm can attempt to resume paused Spotify 10 minutes before wake-up. Spotify may fail when force-closed or after extended inactivity.</div>
-<p class="small">Current device implementation uses a fixed <strong>10-minute</strong> Spotify offset and all six chimes; the music offset and checkbox controls above are still planning controls, not wired to Shortcuts. Bluetooth must already be connected. Silence/Focus may suppress notification chimes.</p>
-<a href="https://github.com/dfdt2/morning_routine/blob/main/SETUP.md">Read exact iPhone setup instructions</a>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#16192a">
+<title>Morning Routine</title>
+<style>
+:root{color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;background:radial-gradient(ellipse at top,#35304c,#16192a 60%,#111522);color:#f7f2f7;font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+main{max-width:570px;margin:0 auto;padding:28px 16px max(55px,env(safe-area-inset-bottom))}
+h1{font-size:36px;letter-spacing:-1.1px;font-weight:680;margin:6px 0 23px}
+section{background:#ffffff0c;border:1px solid #ffffff20;border-radius:19px;padding:18px;margin:13px 0}
+h2{font-size:16px;margin:0 0 15px;font-weight:650}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:14px 0}
+label{font-size:14px;color:#ebe6ef}
+input,select{color:white;border:1px solid #ffffff35;background:#27283f;border-radius:11px;padding:11px;font:inherit;max-width:100%;color-scheme:dark}
+input[type=time]{font-size:19px;width:145px}
+input[type=checkbox]{accent-color:#c6a1f2;width:19px;height:19px}
+select{width:130px}
+button{cursor:pointer;font:inherit}
+.options{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.option{min-width:0;border:1px solid #ffffff35;color:#f8f3fb;background:#ffffff0b;border-radius:12px;padding:12px 2px 10px;text-align:center;line-height:1.25}
+.option b{display:block;font-size:15px;margin-bottom:6px}
+.option small{display:block;font-size:11px;color:#bbb3cf}
+.option.active{background:#c4a7eb;color:#161629;border-color:#c4a7eb;font-weight:700}
+.option.active small{color:#3c2c57}
+input[type=text]{width:100%;margin:8px 0}
+.primary{background:#c4a7eb;color:#141322;font-weight:750;border:0;width:100%;font-size:16px;padding:16px;border-radius:13px}
+.status{color:#c9bbdc;font-size:13px;margin:10px 1px 0;line-height:1.4}
+</style>
+</head>
+<body>
+<main>
+<h1>Morning Routine</h1>
+<section>
+<h2>Sleep & wake</h2>
+<div class="row"><label for="bed">Going to bed</label><input id="bed" type="time"></div>
+<div class="row"><label>Sleep cycles</label></div>
+<div class="options" id="suggestions"></div>
+<div class="row"><label for="wake">Wake-up time</label><input id="wake" type="time"></div>
 </section>
-<section><h2>Set up your iPhone Shortcut (once)</h2><div class="hint">In Apple Shortcuts, create a shortcut named <strong>Set Morning Alarm</strong> (exact spelling):<ol><li>Add <strong>Get Dates from Input</strong> only if needed; for the simpler setup, use the <strong>Date</strong> action and set its input to <strong>Shortcut Input</strong>. Set the date interpretation to the received time.</li><li>Add <strong>Find Alarms</strong>, filtered by label <strong>Morning Routine</strong>; then <strong>Delete Alarms</strong> for those results (this avoids duplicates). Check any confirmation settings.</li><li>Add <strong>Add Alarm</strong> (or Create Alarm), set time from the date variable and label it <strong>Morning Routine</strong>. Ensure it is enabled.</li><li>Test once with a wake time a few minutes in the future. Keep your regular alarm until the test succeeds.</li></ol>Only delete alarms with the exact label Morning Routine. The Shortcut receives a time as text, such as <strong>07:00</strong>. If the Date action does not parse 24-hour text correctly, use <strong>Get Dates from Input</strong> and select the detected time.</div></section></main><script>
-const ids=['bed','wake','sun','musicOffset','music','alarm','chimes','playlist','shuffle'];const $=id=>document.getElementById(id);const timeToMin=t=>{const [h,m]=t.split(':').map(Number);return h*60+m};const minToTime=n=>{n=((n%1440)+1440)%1440;return String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0')};const fmt=n=>{let t=minToTime(n);let h=+(t.slice(0,2)),m=t.slice(3);return (h%12||12)+':'+m+' '+(h>=12?'PM':'AM')};const settings=()=>Object.fromEntries(ids.map(id=>[id,$(id).type==='checkbox'?$(id).checked:$(id).value]));
-function timeline(){const s=settings(),base=timeToMin(s.wake);let events=[];events.push({offset:-Number(s.sun),name:'Hue sunrise begins',desc:'Gradual light brightening'});if(s.music)events.push({offset:-Number(s.musicOffset),name:'Spotify begins',desc:'Selected playlist'+(s.shuffle?' · shuffle':'')});if(s.alarm)events.push({offset:0,name:'Real iPhone alarm',desc:'Independent audible backup'});if(s.chimes)[15,30,45,60,75,90].forEach(x=>events.push({offset:x,name:'Gentle ding',desc:'+'+x+' minutes after alarm'}));events.sort((a,b)=>a.offset-b.offset);$('timeline').innerHTML=events.map(x=>'<div class="event"><time>'+fmt(base+x.offset)+'</time><div><strong>'+x.name+'</strong><p>'+x.desc+'</p></div></div>').join('')}
-function suggestions(){const bed=timeToMin($('bed').value),wake=$('wake').value;const el=$('suggestions');el.innerHTML='';[5,6,7,8].forEach(n=>{let t=minToTime(bed+15+90*n),b=document.createElement('button');b.className='option'+(t===wake?' active':'');b.textContent=fmt(timeToMin(t));b.title=n+' sleep cycles ('+(n*1.5)+'h)';b.onclick=()=>{$('wake').value=t;render()};el.appendChild(b)})}
-function render(){suggestions();timeline()}ids.forEach(id=>$(id).addEventListener('input',render));const old=localStorage.getItem('morning_routine:v1');if(old){try{const s=JSON.parse(old);ids.forEach(id=>{if(s[id]!==undefined){if($(id).type==='checkbox')$(id).checked=!!s[id];else $(id).value=s[id]}})}catch(e){}}render();$('save').onclick=()=>{localStorage.setItem('morning_routine:v1',JSON.stringify(settings()));$('status').textContent='Saved on this device. Device automation is not connected yet.'};$('copy').onclick=async()=>{try{await navigator.clipboard.writeText(JSON.stringify({...settings(),generatedAt:new Date().toISOString()},null,2));$('status').textContent='Plan copied to clipboard.'}catch(e){$('status').textContent='Could not copy. Use a secure HTTPS page and allow clipboard access.'}};
-$('setIphone').onclick=()=>{const wake=$('wake').value;if(!/^([01][0-9]|2[0-3]):[0-5][0-9]$/.test(wake)){$('iphoneStatus').textContent='Choose a valid wake-up time first.';return}localStorage.setItem('morning_routine:v1',JSON.stringify(settings()));$('iphoneStatus').textContent='Opening Apple Shortcuts. If it reports that the shortcut is missing, create Set Morning Alarm first.';window.location.href='shortcuts://run-shortcut?name='+encodeURIComponent('Set Morning Alarm')+'&input=text&text='+encodeURIComponent(wake)};
-</script></body></html>
+<section>
+<h2>Wake-up sequence</h2>
+<div class="row"><label for="sun">Hue sunrise</label><select id="sun"><option value="15">15 min</option><option value="30" selected>30 min</option><option value="45">45 min</option><option value="60">60 min</option></select></div>
+<div class="row"><label for="musicOffset">Music before alarm</label><select id="musicOffset"><option value="0">At alarm</option><option value="5">5 min</option><option value="10" selected>10 min</option><option value="15">15 min</option><option value="20">20 min</option></select></div>
+<div class="row"><label for="music">Spotify</label><input id="music" type="checkbox" checked></div>
+<div class="row"><label for="alarm">iPhone alarm</label><input id="alarm" type="checkbox" checked></div>
+<div class="row"><label for="chimes">Follow-up chimes</label><input id="chimes" type="checkbox" checked></div>
+</section>
+<section>
+<h2>Music selection</h2>
+<label for="playlist">Playlist</label>
+<input id="playlist" type="text" placeholder="Name or Spotify URL" autocomplete="off">
+<div class="row"><label for="shuffle">Shuffle</label><input id="shuffle" type="checkbox" checked></div>
+</section>
+<button class="primary" id="setRoutine" type="button">Set Morning Routine</button>
+<div id="status" class="status" role="status" aria-live="polite"></div>
+</main>
+<script>
+const $=id=>document.getElementById(id);
+const ids=['sun','musicOffset','music','alarm','chimes','playlist','shuffle'];
+const toMin=value=>{const [h,m]=value.split(':').map(Number);return h*60+m};
+const toTime=value=>{let n=((value%1440)+1440)%1440;return String(Math.floor(n/60)).padStart(2,'0')+':'+String(n%60).padStart(2,'0')};
+const formatted=value=>{const h=Number(value.slice(0,2)),m=value.slice(3);return (h%12||12)+':'+m+' '+(h<12?'AM':'PM')};
+const quarterNow=()=>{const now=new Date();return toTime(Math.ceil((now.getHours()*60+now.getMinutes()+now.getSeconds()/60)/15)*15)};
+const suggested=(bed,cycles)=>toTime(toMin(bed)+15+cycles*90);
+let chosenCycle=5;
+const saved=(()=>{try{return JSON.parse(localStorage.getItem('morning_routine:v1')||'{}')}catch{return {}}})();
+for(const id of ids){if(saved[id]!==undefined){if($(id).type==='checkbox')$(id).checked=Boolean(saved[id]);else $(id).value=saved[id]}}
+$('bed').value=quarterNow();
+$('wake').value=suggested($('bed').value,chosenCycle);
+function renderSuggestions(){
+  const wrap=$('suggestions');wrap.replaceChildren();
+  for(const cycles of [3,4,5,6]){
+    const value=suggested($('bed').value,cycles);
+    const b=document.createElement('button');
+    b.type='button';
+    b.className='option'+($('wake').value===value?' active':'');
+    const label=document.createElement('b');label.textContent=formatted(value);
+    const sub=document.createElement('small');sub.textContent=cycles+' cycles';
+    b.append(label,sub);
+    b.addEventListener('click',()=>{chosenCycle=cycles;$('wake').value=value;renderSuggestions()});
+    wrap.appendChild(b);
+  }
+}
+$('bed').addEventListener('input',()=>{
+  if(chosenCycle!==null)$('wake').value=suggested($('bed').value,chosenCycle);
+  renderSuggestions();
+});
+$('wake').addEventListener('input',()=>{
+  chosenCycle=[3,4,5,6].find(c=>suggested($('bed').value,c)===$('wake').value)??null;
+  renderSuggestions();
+});
+renderSuggestions();
+function settings(){
+  const result={bed:$('bed').value,wake:$('wake').value};
+  for(const id of ids)result[id]=$(id).type==='checkbox'?$(id).checked:$(id).value;
+  return result;
+}
+$('setRoutine').addEventListener('click',()=>{
+  const s=settings();
+  if(!/^([01][0-9]|2[0-3]):[0-5][0-9]$/.test(s.wake)){
+    $('status').textContent='Choose a wake-up time.';return;
+  }
+  localStorage.setItem('morning_routine:v1',JSON.stringify(s));
+  $('status').textContent='Opening Shortcuts…';
+  // Keep the existing, tested Shortcut name. The button has a simpler user-facing name.
+  window.location.href='shortcuts://run-shortcut?name='+encodeURIComponent('Set Morning Alarm')+'&input=text&text='+encodeURIComponent(s.wake);
+});
+</script>
+</body>
+</html>
