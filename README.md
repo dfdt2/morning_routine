@@ -26,3 +26,6 @@ Keep a conventional iPhone Clock alarm enabled until all device integrations are
 Use an iPhone Shortcut as the launch and alarm-creation mechanism and an always-on automation controller for Hue and scheduled Spotify playback. Avoid placing Hue credentials or Spotify secrets into public GitHub Pages client-side code.
 
 This repository is independent of `dfdt2/playlist_picker` and `dfdt2/wardrobe-builder`.
+
+## Visual design and icon
+The site now uses a cobalt-blue, ivory and star-speckled visual theme matched to the user's original moon illustration. To complete the icon setup, upload the **original, unchanged** image as `moon.jpg` to the repository root on the `main` branch. The page references `/morning_routine/moon.jpg` for both the header artwork and the Apple Home Screen touch icon. No generated or alternate artwork is used. After publishing, open the site in iPhone Safari and choose Share → Add to Home Screen; an existing saved icon may need to be removed and re-added to update.
