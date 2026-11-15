@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#2445ad"><link rel="icon" type="image/jpeg" href="./moon.jpg"><link rel="apple-touch-icon" href="./moon.jpg">
-<title>Morning Routine</title>
+<title>Goodnight</title>
 <style>
 :root{color-scheme:light;--blue:#2445ad;--ivory:#f7efdd;--ink:#172e70}
 *{box-sizing:border-box}body{margin:0;min-height:100vh;color:var(--ivory);font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#2445ad;background-image:radial-gradient(circle at 9% 12%,#f5e8cb 0 1.5px,transparent 2px),radial-gradient(circle at 88% 28%,#f5e8cb 0 2px,transparent 2.5px),radial-gradient(circle at 26% 67%,#e8daba 0 1px,transparent 1.8px),radial-gradient(circle at 81% 79%,#f5e8cb 0 1.4px,transparent 2px),linear-gradient(155deg,#2f57bd 0%,#2448ad 46%,#182f81 100%);background-size:185px 190px,265px 230px,240px 255px,190px 230px,100% 100%}
@@ -27,26 +27,40 @@ input[type=text]{width:100%;margin:8px 0}
 .primary{background:var(--ivory);color:var(--ink);font-weight:750;border:1px solid #d4c8a8;width:100%;font-size:16px;padding:16px;border-radius:13px;box-shadow:0 3px 13px #101b5350}.primary:active{transform:translateY(1px)}
 .status{color:var(--ivory);font-size:13px;margin:10px 1px 0;line-height:1.4}
 @media(max-width:370px){.hero-art{width:78px;height:78px}h1{font-size:30px}.option b{font-size:13px}}
+
+.settings-panel{padding:0;overflow:hidden}
+.settings-panel summary{display:flex;align-items:center;justify-content:space-between;cursor:pointer;list-style:none;padding:18px;font:700 17px Georgia,"Times New Roman",serif;color:var(--ink)}
+.settings-panel summary::-webkit-details-marker{display:none}
+.settings-panel summary::after{content:"⌄";font:600 25px -apple-system,sans-serif;color:var(--blue);transition:transform .2s}
+.settings-panel[open] summary::after{transform:rotate(180deg)}
+.details-body{padding:0 18px 9px;border-top:1px solid #dcd0b5}
+.cycle-3{background:#2542a5;color:#fff8e9;border-color:#2542a5}
+.cycle-4{background:#4970c0;color:#fff8e9;border-color:#4970c0}
+.cycle-5{background:#8aa7df;color:#162f70;border-color:#8aa7df}
+.cycle-6{background:#cad8f0;color:#162f70;border-color:#cad8f0}
+.option.cycle-3 small,.option.cycle-4 small{color:#e9e7f3}
+.option.cycle-5 small,.option.cycle-6 small{color:#364b7e}
+.option.active{outline:3px solid #d1ae69;outline-offset:-3px;box-shadow:0 0 0 2px #fffaf1 inset}
+.option.cycle-5.active,.option.cycle-6.active{color:#162f70}
+.option.cycle-5.active small,.option.cycle-6.active small{color:#364b7e}
 </style>
 </head>
 <body>
 <main>
-<div class="hero"><img class="hero-art" src="./moon.jpg" alt="Moon and stars illustration"><h1>Morning Routine</h1></div>
+<div class="hero"><img class="hero-art" src="./moon.jpg" alt="Moon and stars illustration"><h1>Goodnight</h1></div>
 <section>
-<h2>Sleep & wake</h2>
-<div class="row"><label for="bed">Going to bed</label><input id="bed" type="time"></div>
+<div class="row"><label for="bed">Going to bed at</label><input id="bed" type="time" step="300"></div>
 <div class="row"><label>Sleep cycles</label></div>
 <div class="options" id="suggestions"></div>
-<div class="row"><label for="wake">Wake-up time</label><input id="wake" type="time"></div>
+<div class="row"><label for="wake">Wake-up time</label><input id="wake" type="time" step="300"></div>
 </section>
-<section>
-<h2>Wake-up sequence</h2>
+<details class="settings-panel"><summary>Wake-up options</summary><div class="details-body">
 <div class="row"><label for="sun">Hue sunrise</label><select id="sun"><option value="15">15 min</option><option value="30" selected>30 min</option><option value="45">45 min</option><option value="60">60 min</option></select></div>
 <div class="row"><label for="musicOffset">Music before alarm</label><select id="musicOffset"><option value="0">At alarm</option><option value="5">5 min</option><option value="10" selected>10 min</option><option value="15">15 min</option><option value="20">20 min</option></select></div>
 <div class="row"><label for="music">Spotify</label><input id="music" type="checkbox" checked></div>
 <div class="row"><label for="alarm">iPhone alarm</label><input id="alarm" type="checkbox" checked></div>
 <div class="row"><label for="chimes">Follow-up chimes</label><input id="chimes" type="checkbox" checked></div>
-</section>
+</div></details>
 <section>
 <h2>Music selection</h2>
 <label for="playlist">Playlist</label>
@@ -64,6 +78,7 @@ const toTime=value=>{let n=((value%1440)+1440)%1440;return String(Math.floor(n/6
 const formatted=value=>{const h=Number(value.slice(0,2)),m=value.slice(3);return (h%12||12)+':'+m+' '+(h<12?'AM':'PM')};
 const quarterNow=()=>{const now=new Date();return toTime(Math.ceil((now.getHours()*60+now.getMinutes()+now.getSeconds()/60)/15)*15)};
 const suggested=(bed,cycles)=>toTime(toMin(bed)+15+cycles*90);
+const snapFive=value=>value&&/^\d{2}:\d{2}$/.test(value)?toTime(Math.round(toMin(value)/5)*5):value;
 let chosenCycle=5;
 const saved=(()=>{try{return JSON.parse(localStorage.getItem('morning_routine:v1')||'{}')}catch{return {}}})();
 for(const id of ids){if(saved[id]!==undefined){if($(id).type==='checkbox')$(id).checked=Boolean(saved[id]);else $(id).value=saved[id]}}
@@ -75,7 +90,7 @@ function renderSuggestions(){
     const value=suggested($('bed').value,cycles);
     const b=document.createElement('button');
     b.type='button';
-    b.className='option'+($('wake').value===value?' active':'');
+    b.className='option cycle-'+cycles+($('wake').value===value?' active':'');
     const label=document.createElement('b');label.textContent=formatted(value);
     const sub=document.createElement('small');sub.textContent=cycles+' cycles';
     b.append(label,sub);
@@ -83,14 +98,10 @@ function renderSuggestions(){
     wrap.appendChild(b);
   }
 }
-$('bed').addEventListener('input',()=>{
-  if(chosenCycle!==null)$('wake').value=suggested($('bed').value,chosenCycle);
-  renderSuggestions();
-});
-$('wake').addEventListener('input',()=>{
-  chosenCycle=[3,4,5,6].find(c=>suggested($('bed').value,c)===$('wake').value)??null;
-  renderSuggestions();
-});
+function updateBed(){ if(!$('bed').value)return; $('bed').value=snapFive($('bed').value); if(chosenCycle!==null)$('wake').value=suggested($('bed').value,chosenCycle); renderSuggestions(); }
+function updateWake(){ if(!$('wake').value)return; $('wake').value=snapFive($('wake').value); chosenCycle=[3,4,5,6].find(c=>suggested($('bed').value,c)===$('wake').value)??null; renderSuggestions(); }
+$('bed').addEventListener('change',updateBed);
+$('wake').addEventListener('change',updateWake);
 renderSuggestions();
 function settings(){
   const result={bed:$('bed').value,wake:$('wake').value};
@@ -98,6 +109,7 @@ function settings(){
   return result;
 }
 $('setRoutine').addEventListener('click',()=>{
+  updateBed();updateWake();
   const s=settings();
   if(!/^([01][0-9]|2[0-3]):[0-5][0-9]$/.test(s.wake)){
     $('status').textContent='Choose a wake-up time.';return;
