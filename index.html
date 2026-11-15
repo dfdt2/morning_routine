@@ -3,37 +3,35 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#16192a">
+<meta name="theme-color" content="#2445ad"><link rel="icon" type="image/jpeg" href="./moon.jpg"><link rel="apple-touch-icon" href="./moon.jpg">
 <title>Morning Routine</title>
 <style>
-:root{color-scheme:dark}
-*{box-sizing:border-box}
-body{margin:0;min-height:100vh;background:radial-gradient(ellipse at top,#35304c,#16192a 60%,#111522);color:#f7f2f7;font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-main{max-width:570px;margin:0 auto;padding:28px 16px max(55px,env(safe-area-inset-bottom))}
-h1{font-size:36px;letter-spacing:-1.1px;font-weight:680;margin:6px 0 23px}
-section{background:#ffffff0c;border:1px solid #ffffff20;border-radius:19px;padding:18px;margin:13px 0}
-h2{font-size:16px;margin:0 0 15px;font-weight:650}
+:root{color-scheme:light;--blue:#2445ad;--ivory:#f7efdd;--ink:#172e70}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;color:var(--ivory);font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:#2445ad;background-image:radial-gradient(circle at 9% 12%,#f5e8cb 0 1.5px,transparent 2px),radial-gradient(circle at 88% 28%,#f5e8cb 0 2px,transparent 2.5px),radial-gradient(circle at 26% 67%,#e8daba 0 1px,transparent 1.8px),radial-gradient(circle at 81% 79%,#f5e8cb 0 1.4px,transparent 2px),linear-gradient(155deg,#2f57bd 0%,#2448ad 46%,#182f81 100%);background-size:185px 190px,265px 230px,240px 255px,190px 230px,100% 100%}
+main{max-width:570px;margin:0 auto;padding:24px 16px max(55px,env(safe-area-inset-bottom))}
+.hero{display:flex;align-items:center;gap:16px;margin:6px 1px 24px}
+.hero-art{display:block;width:95px;height:95px;flex:none;object-fit:cover;border-radius:19px;background:#2445ad;border:1px solid #ffffff40;box-shadow:0 5px 22px #101b5347}
+h1{font-size:34px;letter-spacing:-1px;line-height:1.05;font-weight:690;margin:0;max-width:230px;color:var(--ivory);font-family:Georgia,"Times New Roman",serif}
+section{background:var(--ivory);border:1px solid #e6ddc6;border-radius:18px;padding:18px;margin:13px 0;box-shadow:0 3px 15px #101b5326;color:var(--ink)}
+h2{font-size:17px;margin:0 0 15px;font-family:Georgia,"Times New Roman",serif;letter-spacing:.1px;font-weight:700;color:var(--ink)}
 .row{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:14px 0}
-label{font-size:14px;color:#ebe6ef}
-input,select{color:white;border:1px solid #ffffff35;background:#27283f;border-radius:11px;padding:11px;font:inherit;max-width:100%;color-scheme:dark}
-input[type=time]{font-size:19px;width:145px}
-input[type=checkbox]{accent-color:#c6a1f2;width:19px;height:19px}
-select{width:130px}
-button{cursor:pointer;font:inherit}
+label{font-size:14px;color:var(--ink)}
+input,select{color:var(--ink);border:1px solid #bcb5a4;background:#fffcf6;border-radius:10px;padding:11px;font:inherit;max-width:100%;color-scheme:light}
+input:focus,select:focus,button:focus-visible{outline:2px solid #315bc8;outline-offset:2px}
+input[type=time]{font-size:19px;width:145px}input[type=checkbox]{accent-color:var(--blue);width:19px;height:19px}select{width:130px}button{cursor:pointer;font:inherit}
 .options{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
-.option{min-width:0;border:1px solid #ffffff35;color:#f8f3fb;background:#ffffff0b;border-radius:12px;padding:12px 2px 10px;text-align:center;line-height:1.25}
-.option b{display:block;font-size:15px;margin-bottom:6px}
-.option small{display:block;font-size:11px;color:#bbb3cf}
-.option.active{background:#c4a7eb;color:#161629;border-color:#c4a7eb;font-weight:700}
-.option.active small{color:#3c2c57}
+.option{min-width:0;border:1px solid #c2b8a3;color:var(--ink);background:#fffaf1;border-radius:11px;padding:12px 2px 10px;text-align:center;line-height:1.25}
+.option b{display:block;font-size:15px;margin-bottom:6px}.option small{display:block;font-size:11px;color:#626e99}
+.option.active{background:var(--blue);color:var(--ivory);border-color:var(--blue);font-weight:700}.option.active small{color:#eee2cb}
 input[type=text]{width:100%;margin:8px 0}
-.primary{background:#c4a7eb;color:#141322;font-weight:750;border:0;width:100%;font-size:16px;padding:16px;border-radius:13px}
-.status{color:#c9bbdc;font-size:13px;margin:10px 1px 0;line-height:1.4}
+.primary{background:var(--ivory);color:var(--ink);font-weight:750;border:1px solid #d4c8a8;width:100%;font-size:16px;padding:16px;border-radius:13px;box-shadow:0 3px 13px #101b5350}.primary:active{transform:translateY(1px)}
+.status{color:var(--ivory);font-size:13px;margin:10px 1px 0;line-height:1.4}
+@media(max-width:370px){.hero-art{width:78px;height:78px}h1{font-size:30px}.option b{font-size:13px}}
 </style>
 </head>
 <body>
 <main>
-<h1>Morning Routine</h1>
+<div class="hero"><img class="hero-art" src="./moon.jpg" alt="Moon and stars illustration"><h1>Morning Routine</h1></div>
 <section>
 <h2>Sleep & wake</h2>
 <div class="row"><label for="bed">Going to bed</label><input id="bed" type="time"></div>
