@@ -1,20 +1,28 @@
 # Morning Routine
 
-Standalone GitHub Pages bedtime dashboard, entirely separate from `playlist_picker` and `wardrobe-builder`.
+Independent, mobile-friendly bedtime dashboard hosted with GitHub Pages.
 
-## Publish
-1. Create a new public GitHub repository called `morning_routine` (do not initialize it with files).
-2. Upload `index.html` and `README.md` to the repository root.
-3. Go to Settings > Pages > Build and deployment > Deploy from a branch; select `main` and `/ (root)`.
-4. Visit `https://YOUR_USERNAME.github.io/morning_routine/`.
+## Site
+https://dfdt2.github.io/morning_routine/
 
-## Current capabilities
-- Adjustable bedtime and wake-up time (minute precision)
-- Approximate sleep-cycle suggestions
-- Hue sunrise offset, music offset, iPhone alarm and six chimes
-- Playlist text/URL, shuffle toggle
-- Morning schedule preview
-- Local browser preference saving and JSON copy
+To enable hosting if it is not already enabled: GitHub repository **Settings → Pages → Build and deployment → Deploy from a branch → main → / (root)**.
 
-## Not yet connected
-Hue Bridge API, iOS Shortcuts, Spotify playback, and iOS scheduled chimes. The save button does **not** perform these actions. Keep a standard iPhone alarm in place.
+## Dashboard features
+- Bedtime input and approximate sleep-cycle-based wake-up suggestions (5–8 cycles; 90-minute approximation, 15-minute falling-asleep allowance)
+- Exact wake-up time adjustable to the minute
+- Hue sunrise start offset
+- Spotify playlist text/URL, shuffle preference, and pre-alarm music offset (default 10 minutes)
+- iPhone Clock alarm schedule preview
+- Six gentle follow-up chimes (+15, +30, +45, +60, +75 and +90 minutes)
+- Timeline recalculated when settings change
+- Preferences saved in this browser via localStorage; optional copy of JSON configuration
+
+## Important: preview, not active automation
+The dashboard **does not yet** control Philips Hue, Spotify, Apple Clock, or iOS notifications. "Save" stores local dashboard settings only; it does not schedule alarms or initiate audio.
+
+Keep a conventional iPhone Clock alarm enabled until all device integrations are installed and tested. iOS locked-phone playback and notification delivery require separate reliability checks.
+
+## Planned integration
+Use an iPhone Shortcut as the launch and alarm-creation mechanism and an always-on automation controller for Hue and scheduled Spotify playback. Avoid placing Hue credentials or Spotify secrets into public GitHub Pages client-side code.
+
+This repository is independent of `dfdt2/playlist_picker` and `dfdt2/wardrobe-builder`.
